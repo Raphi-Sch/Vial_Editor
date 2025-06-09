@@ -37,6 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
 
 ?>
 
+<!DOCTYPE html>
 <html>
 
 <head>
@@ -54,10 +55,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
         <input type='file' name='file' required>
         <input type='submit' value='Import'>
     </form>
+    <br/>
+    
     <form action='index.php' method='post'>
         <input type='hidden' name='action' value='export'>
         <input type='submit' value='Export'>
     </form>
+    <br/>
+
     <form action='index.php' method='post'>
         <input type='hidden' name='action' value='clear'>
         <input type='submit' value='Clear'>
