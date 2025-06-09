@@ -4,41 +4,31 @@ require_once 'src/functions.php';
 
 // POST processing
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
-    if ($_POST['action'] == 'clear') {
-        $_SESSION['vial_editor'] = null;
-        $_SESSION['vial_editor']['last_action'] = 'clear';
-        header('Location: index.php');
-        exit();
-    }
+    switch ($_POST['action']) {
+        case 'clear':
+            $_SESSION['vial_editor'] = null;
+            $_SESSION['vial_editor']['last_action'] = 'clear';
+            break;
 
-    if ($_POST['action'] == 'import') {
-        $_SESSION['vial_editor']['last_action'] = 'import';
+        case 'import':
+            $_SESSION['vial_editor']['last_action'] = 'import';
+            upload_file_to_memory('file', dirname(__FILE__) . '/tmp');
+            break;
 
-        // Download file from user and copy it in memory
-        upload_file_to_memory('file', dirname(__FILE__) . '/tmp');
+        case 'export':
+            header("Content-Disposition: attachment; filename=layout.vial_editor");
+            echo json_encode($_SESSION['vial_editor']['data']);
+            exit();
 
-        header('Location: index.php');
-        exit();
-    }
+        case 'swap-keys':
+            $_SESSION['vial_editor']['last_action'] = 'swap-key';
+            swap_layout('layout', intval($_POST['a']), intval($_POST['b']));
+            break;
 
-    if ($_POST['action'] == 'export') {
-        header("Content-Disposition: attachment; filename=layout.vial_editor");
-        echo json_encode($_SESSION['vial_editor']['data']);
-        exit();
-    }
-
-    if ($_POST['action'] == "swap-key") {
-        $_SESSION['vial_editor']['last_action'] = 'swap-key';
-        swap_layout('layout', intval($_POST['a']), intval($_POST['b']));
-        header('Location: index.php');
-        exit();
-    }
-
-    if ($_POST['action'] == "swap-rotary") {
-        $_SESSION['vial_editor']['last_action'] = 'swap-rotary';
-        swap_layout('encoder_layout', intval($_POST['a']), intval($_POST['b']));
-        header('Location: index.php');
-        exit();
+        case 'swap-encoders':
+            $_SESSION['vial_editor']['last_action'] = 'swap-rotary';
+            swap_layout('encoder_layout', intval($_POST['a']), intval($_POST['b']));
+            break;
     }
 
     header('Location: index.php');
