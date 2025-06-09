@@ -1,7 +1,9 @@
 <?php
 session_start();
+require_once 'src/functions.php';
 ?>
 
+<!DOCTYPE html>
 <html>
 
 <head>
@@ -37,6 +39,16 @@ session_start();
     ?>
 
     <?php require_once 'src/alert.php'; ?>
+
+    <script>
+        let blurred = false;
+        window.onblur = function() {
+            blurred = true;
+        };
+        window.onfocus = function() {
+            blurred && (location.reload());
+        };
+    </script>
 </body>
 
 </html>
