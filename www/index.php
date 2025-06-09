@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
             break;
 
         case 'export':
-            header("Content-Disposition: attachment; filename=layout.vial_editor");
+            header("Content-Disposition: attachment; filename=layout.vil");
             echo json_encode($_SESSION['vial_editor']['data']);
             exit();
 
