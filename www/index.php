@@ -44,7 +44,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
 
     <h1>Vial editor</h1>
 
-    <h2>Import layout <?php echo (isset($_SESSION['vial_editor']['data'])) ? "(OK)" : "(Empty)"; ?></h2>
+    <h2>Manage layout</h2>
+
+    <?php if(!isset($_SESSION['vial_editor']['data'])) { ?>
     <form action='index.php' method='post' enctype='multipart/form-data'>
         <input type='hidden' name='action' value='import'>
         <input type='file' name='file' required>
@@ -52,6 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
     </form>
     <br />
 
+    <?php } else { ?>
     <form action='index.php' method='post'>
         <input type='hidden' name='action' value='export'>
         <input type='submit' value='Export'>
@@ -74,6 +77,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
         <input type='number' name='b' min='0' max='15' step='1' value='0'>
         <input type='submit' value="Swap">
     </form>
+
+    <?php } ?>
 
     <?php
     if (isset($_SESSION['vial_editor']['last_change'])) {
