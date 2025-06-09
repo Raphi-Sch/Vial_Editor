@@ -55,13 +55,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
         <input type='file' name='file' required>
         <input type='submit' value='Import'>
     </form>
-    <br/>
-    
+    <br />
+
     <form action='index.php' method='post'>
         <input type='hidden' name='action' value='export'>
         <input type='submit' value='Export'>
     </form>
-    <br/>
+    <br />
 
     <form action='index.php' method='post'>
         <input type='hidden' name='action' value='clear'>
@@ -88,7 +88,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
         <input type='submit' value="Swap">
     </form>
 
+    <?php
+    if (isset($_SESSION['vial_editor']['last_change'])) {
+        $last = $_SESSION['vial_editor']['last_change'];
 
+        echo "<h2>Last change</h2>";
+        echo "Performed action : " . $last['text'];
+
+        // Change on A
+        echo "<h4>Layout " . $last['id_A'] . " was</h4>";
+        echo display_layout($last['old_A']);
+        echo "<h4>Layout " . $last['id_A'] . " is now</h4>";
+        echo display_layout($last['new_A']);
+
+        // Change on B
+        echo "<h4>Layout " . $last['id_B'] . " was</h4>";
+        echo display_layout($last['old_B']);
+        echo "<h4>Layout " . $last['id_B'] . " is now</h4>";
+        echo display_layout($last['new_B']);
+    }
+    ?>
 
     <?php require_once 'src/alert.php'; ?>
 </body>

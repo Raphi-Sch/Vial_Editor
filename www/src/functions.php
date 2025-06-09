@@ -79,14 +79,38 @@ function swap_layout($layout, $A, $B)
         return false;
     }
 
+    $_SESSION['vial_editor']['last_change']['text'] = "Layout $A and $B got swapped";
+    $_SESSION['vial_editor']['last_change']['id_A'] = $A;
+    $_SESSION['vial_editor']['last_change']['id_B'] = $B;
+
     // Copy A to tmp
+    $_SESSION['vial_editor']['last_change']['old_A'] = $_SESSION['vial_editor']['data'][$layout][$A];
     $tmp = $_SESSION['vial_editor']['data'][$layout][$A];
 
     // Copy B to A
+    $_SESSION['vial_editor']['last_change']['old_B'] = $_SESSION['vial_editor']['data'][$layout][$B];
     $_SESSION['vial_editor']['data'][$layout][$A] = $_SESSION['vial_editor']['data'][$layout][$B];
+    $_SESSION['vial_editor']['last_change']['new_A'] = $_SESSION['vial_editor']['data'][$layout][$A];
 
     // Copy tmp to B
     $_SESSION['vial_editor']['data'][$layout][$B] = $tmp;
+    $_SESSION['vial_editor']['last_change']['new_B'] = $_SESSION['vial_editor']['data'][$layout][$B];
 
     return true;
+}
+
+function display_layout($data)
+{
+    $tmp = "";
+    foreach ($data as $element) {
+        $HTML_th = "";
+        $HTML_td = "";
+        foreach ($element as $key => $value) {
+            $HTML_th .= "<th>$key</th>";
+            $HTML_td .= "<td>$value</td>";
+        }
+        $tmp .= "<table><tr>$HTML_th</tr><tr>$HTML_td</tr></table><br/>";
+    }
+
+    return $tmp;
 }
