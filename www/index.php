@@ -86,7 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
 <html>
 
 <head>
-    <title>Vial Editor</title>
+    <title>Vial Editor - Main</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -109,45 +109,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
         <input type='submit' value='Clear'>
     </form>
 
-    <h2>Swap key layer</h2>
+    <h2>Layout explorer</h2>
+    <a target="_blank" rel="noopener noreferrer" href='layout_keys.php'>Keys layout</a>
+    <a target="_blank" rel="noopener noreferrer" href='layout_encoders.php'>Encoders layout</a>
+
+    <h2>Swap key layout</h2>
     <form action='index.php' method='post'>
         <input type='hidden' name='action' value='swap-key'>
-        <input type='number' name='a' min=0 max=15 step=1 value=0>
-        <input type='number' name='b' min=0 max=15 step=1 value=0>
+        <input type='number' name='a' min='0' max='15' step='1' value='0'>
+        <input type='number' name='b' min='0' max='15' step='1' value='0'>
         <input type='submit' value="Swap">
     </form>
 
-    <h2>Swap rotary layer</h2>
+    <h2>Swap encoders layout</h2>
     <form action='index.php' method='post'>
         <input type='hidden' name='action' value='swap-rotary'>
-        <input type='number' name='a' min=0 max=15 step=1 value=0>
-        <input type='number' name='b' min=0 max=15 step=1 value=0>
+        <input type='number' name='a' min='0' max='15' step='1' value='0'>
+        <input type='number' name='b' min='0' max='15' step='1' value='0'>
         <input type='submit' value="Swap">
     </form>
 
-    <h2>Current key layers</h2>
-    <?php
-    if (isset($_SESSION['vial_editor']['data'])) {
-        $i = 0;
-        foreach ($_SESSION['vial_editor']['data']['layout'] as $layer) {
-            echo "<h4>Layer $i</h4>";
-            $j = 0;
-            foreach ($layer as $element) {
-                $HTML_th = "";
-                $HTML_td = "";
-                foreach ($element as $key => $value) {
-                    $HTML_th .= "<th>$key</th>";
-                    $HTML_td .= "<td>$value</td>";
-                }
-                echo "<table><tr>$HTML_th</tr><tr>$HTML_td</tr></table><br/>";
-            }
-            $i++;
-        }
-    } else {
-        echo "No data loaded.";
-    }
 
-    ?>
 
     <?php require_once 'src/alert.php'; ?>
 </body>
