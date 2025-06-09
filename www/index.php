@@ -29,50 +29,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
 
     if ($_POST['action'] == "swap-key") {
         $_SESSION['vial_editor']['last_action'] = 'swap-key';
-
-        if ($_POST['a'] == $_POST['b']) {
-            alert_set("Can't swap identical layer");
-            header('Location: index.php');
-            exit();
-        }
-
-        $A = intval($_POST['a']);
-        $B = intval($_POST['b']);
-
-        // Copy A to tmp
-        $tmp = $_SESSION['vial_editor']['data']['layout'][$A];
-
-        // Copy B to A
-        $_SESSION['vial_editor']['data']['layout'][$A] = $_SESSION['vial_editor']['data']['layout'][$B];
-
-        // Copy tmp to B
-        $_SESSION['vial_editor']['data']['layout'][$B] = $tmp;
-
+        swap_layout('layout', intval($_POST['a']), intval($_POST['b']));
         header('Location: index.php');
         exit();
     }
 
     if ($_POST['action'] == "swap-rotary") {
         $_SESSION['vial_editor']['last_action'] = 'swap-rotary';
-
-        if ($_POST['a'] == $_POST['b']) {
-            alert_set("Can't swap identical layer");
-            header('Location: index.php');
-            exit();
-        }
-
-        $A = intval($_POST['a']);
-        $B = intval($_POST['b']);
-
-        // Copy A to tmp
-        $tmp = $_SESSION['vial_editor']['data']['encoder_layout'][$A];
-
-        // Copy B to A
-        $_SESSION['vial_editor']['data']['encoder_layout'][$A] = $_SESSION['vial_editor']['data']['encoder_layout'][$B];
-
-        // Copy tmp to B
-        $_SESSION['vial_editor']['data']['encoder_layout'][$B] = $tmp;
-
+        swap_layout('encoder_layout', intval($_POST['a']), intval($_POST['b']));
         header('Location: index.php');
         exit();
     }

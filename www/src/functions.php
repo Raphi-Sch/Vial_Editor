@@ -9,15 +9,18 @@ function alert_set($text)
     $_SESSION['alert'] = $text;
 }
 
-function alert_clear(){
+function alert_clear()
+{
     $_SESSION['alert'] = null;
 }
 
-function alert_get(){
+function alert_get()
+{
     return $_SESSION['alert'];
 }
 
-function alert_is_set(){
+function alert_is_set()
+{
     return !empty($_SESSION['alert']);
 }
 
@@ -62,10 +65,28 @@ function upload_file_to_memory($form_field_name)
 
         // Copy tmp file in memory (PHP Session)
         $_SESSION['vial_editor']['data'] = json_decode(file_get_contents($_FILES[$form_field_name]['tmp_name']), true, 512, JSON_BIGINT_AS_STRING | JSON_OBJECT_AS_ARRAY);
-
     } catch (RuntimeException $e) {
         alert_set("Error when receiving the file : " . $e->getMessage());
         return false; // Error occur
     }
     return true; // Everything OK
+}
+
+function swap_layout($layout, $A, $B)
+{
+    if ($A == $B) {
+        alert_set("Can't swap identical layer");
+        return false;
+    }
+
+    // Copy A to tmp
+    $tmp = $_SESSION['vial_editor']['data'][$layout][$A];
+
+    // Copy B to A
+    $_SESSION['vial_editor']['data'][$layout][$A] = $_SESSION['vial_editor']['data'][$layout][$B];
+
+    // Copy tmp to B
+    $_SESSION['vial_editor']['data'][$layout][$B] = $tmp;
+
+    return true;
 }
