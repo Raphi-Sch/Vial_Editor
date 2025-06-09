@@ -20,14 +20,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
             echo json_encode($_SESSION['vial_editor']['data']);
             exit();
 
-        case 'swap-keys':
-            $_SESSION['vial_editor']['last_action'] = 'swap-keys';
-            swap_layout('layout', intval($_POST['a']), intval($_POST['b']));
-            break;
-
-        case 'swap-encoders':
-            $_SESSION['vial_editor']['last_action'] = 'swap-encoders';
-            swap_layout('encoder_layout', intval($_POST['a']), intval($_POST['b']));
+        case 'swap-layout':
+            $_SESSION['vial_editor']['last_action'] = 'swap-layout';
+            swap_layout(intval($_POST['a']), intval($_POST['b']));
             break;
     }
 
@@ -72,17 +67,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
     <a target="_blank" rel="noopener noreferrer" href='layout_keys.php'>Keys layout</a>
     <a target="_blank" rel="noopener noreferrer" href='layout_encoders.php'>Encoders layout</a>
 
-    <h2>Swap key layout</h2>
+    <h2>Swap layout</h2>
     <form action='index.php' method='post'>
-        <input type='hidden' name='action' value='swap-keys'>
-        <input type='number' name='a' min='0' max='15' step='1' value='0'>
-        <input type='number' name='b' min='0' max='15' step='1' value='0'>
-        <input type='submit' value="Swap">
-    </form>
-
-    <h2>Swap encoders layout</h2>
-    <form action='index.php' method='post'>
-        <input type='hidden' name='action' value='swap-encoders'>
+        <input type='hidden' name='action' value='swap-layout'>
         <input type='number' name='a' min='0' max='15' step='1' value='0'>
         <input type='number' name='b' min='0' max='15' step='1' value='0'>
         <input type='submit' value="Swap">
@@ -97,15 +84,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
 
         // Change on A
         echo "<h4>Layout " . $last['id_A'] . " was</h4>";
-        echo display_layout($last['old_A']);
+        echo display_layout($last['layout']['old_A']);
+        echo display_layout($last['encoder_layout']['old_A']);
         echo "<h4>Layout " . $last['id_A'] . " is now</h4>";
-        echo display_layout($last['new_A']);
+        echo display_layout($last['layout']['new_A']);
+        echo display_layout($last['encoder_layout']['new_A']);
 
         // Change on B
         echo "<h4>Layout " . $last['id_B'] . " was</h4>";
-        echo display_layout($last['old_B']);
+        echo display_layout($last['layout']['old_B']);
+        echo display_layout($last['encoder_layout']['old_B']);
         echo "<h4>Layout " . $last['id_B'] . " is now</h4>";
-        echo display_layout($last['new_B']);
+        echo display_layout($last['layout']['new_B']);
+        echo display_layout($last['encoder_layout']['new_B']);
     }
     ?>
 

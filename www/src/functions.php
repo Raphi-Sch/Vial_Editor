@@ -72,7 +72,7 @@ function upload_file_to_memory($form_field_name)
     return true; // Everything OK
 }
 
-function swap_layout($layout, $A, $B)
+function swap_layout($A, $B)
 {
     if ($A == $B) {
         alert_set("Can't swap identical layer");
@@ -83,20 +83,31 @@ function swap_layout($layout, $A, $B)
     $_SESSION['vial_editor']['last_change']['id_A'] = $A;
     $_SESSION['vial_editor']['last_change']['id_B'] = $B;
 
+    // Swap keys layout
+    perform_swap('layout', $A, $B);
+
+    // Swap encoders layout
+    perform_swap('encoder_layout', $A, $B);
+
+    return true;
+}
+
+function perform_swap($layout, $A, $B)
+{
+    $_SESSION['vial_editor']['last_change'][$layout] = null;
+
     // Copy A to tmp
-    $_SESSION['vial_editor']['last_change']['old_A'] = $_SESSION['vial_editor']['data'][$layout][$A];
+    $_SESSION['vial_editor']['last_change'][$layout]['old_A'] = $_SESSION['vial_editor']['data'][$layout][$A];
     $tmp = $_SESSION['vial_editor']['data'][$layout][$A];
 
     // Copy B to A
-    $_SESSION['vial_editor']['last_change']['old_B'] = $_SESSION['vial_editor']['data'][$layout][$B];
+    $_SESSION['vial_editor']['last_change'][$layout]['old_B'] = $_SESSION['vial_editor']['data'][$layout][$B];
     $_SESSION['vial_editor']['data'][$layout][$A] = $_SESSION['vial_editor']['data'][$layout][$B];
-    $_SESSION['vial_editor']['last_change']['new_A'] = $_SESSION['vial_editor']['data'][$layout][$A];
+    $_SESSION['vial_editor']['last_change'][$layout]['new_A'] = $_SESSION['vial_editor']['data'][$layout][$A];
 
     // Copy tmp to B
     $_SESSION['vial_editor']['data'][$layout][$B] = $tmp;
-    $_SESSION['vial_editor']['last_change']['new_B'] = $_SESSION['vial_editor']['data'][$layout][$B];
-
-    return true;
+    $_SESSION['vial_editor']['last_change'][$layout]['new_B'] = $_SESSION['vial_editor']['data'][$layout][$B];
 }
 
 function display_layout($data)
