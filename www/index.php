@@ -14,15 +14,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
     if ($_POST['action'] == 'import') {
         $_SESSION['vil']['last_action'] = 'import';
 
-        // Download file from user
-        require_once 'src/file_upload.php';
-        $filename = file_upload('file', dirname(__FILE__) . '/tmp');
-
-        // Load file in memory
-        $_SESSION['vil']['data'] = json_decode(file_get_contents(dirname(__FILE__) . '/tmp/' . $filename), true, 512, JSON_BIGINT_AS_STRING | JSON_OBJECT_AS_ARRAY);
-
-        // Remove file from server
-        unlink(dirname(__FILE__) . '/tmp/' . $filename);
+        // Download file from user and copy it in memory
+        upload_file_to_memory('file', dirname(__FILE__) . '/tmp');
 
         header('Location: index.php');
         exit();
