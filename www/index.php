@@ -21,12 +21,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
             exit();
 
         case 'swap-keys':
-            $_SESSION['vial_editor']['last_action'] = 'swap-key';
+            $_SESSION['vial_editor']['last_action'] = 'swap-keys';
             swap_layout('layout', intval($_POST['a']), intval($_POST['b']));
             break;
 
         case 'swap-encoders':
-            $_SESSION['vial_editor']['last_action'] = 'swap-rotary';
+            $_SESSION['vial_editor']['last_action'] = 'swap-encoders';
             swap_layout('encoder_layout', intval($_POST['a']), intval($_POST['b']));
             break;
     }
@@ -69,7 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
 
     <h2>Swap key layout</h2>
     <form action='index.php' method='post'>
-        <input type='hidden' name='action' value='swap-key'>
+        <input type='hidden' name='action' value='swap-keys'>
         <input type='number' name='a' min='0' max='15' step='1' value='0'>
         <input type='number' name='b' min='0' max='15' step='1' value='0'>
         <input type='submit' value="Swap">
@@ -77,7 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
 
     <h2>Swap encoders layout</h2>
     <form action='index.php' method='post'>
-        <input type='hidden' name='action' value='swap-rotary'>
+        <input type='hidden' name='action' value='swap-encoders'>
         <input type='number' name='a' min='0' max='15' step='1' value='0'>
         <input type='number' name='b' min='0' max='15' step='1' value='0'>
         <input type='submit' value="Swap">
