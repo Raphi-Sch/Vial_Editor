@@ -50,7 +50,7 @@ function upload_file_to_memory($form_field_name)
 
         // Check MIME
         $finfo = new finfo(FILEINFO_MIME_TYPE);
-        if (false === $ext = array_search(
+        if (false === array_search(
             $finfo->file($_FILES[$form_field_name]['tmp_name']),
             array(
                 'vil' => 'application/json',
@@ -61,7 +61,7 @@ function upload_file_to_memory($form_field_name)
         }
 
         // Copy tmp file in memory (PHP Session)
-        $_SESSION['vil']['data'] = json_decode(file_get_contents($_FILES[$form_field_name]['tmp_name']), true, 512, JSON_BIGINT_AS_STRING | JSON_OBJECT_AS_ARRAY);
+        $_SESSION['vial_editor']['data'] = json_decode(file_get_contents($_FILES[$form_field_name]['tmp_name']), true, 512, JSON_BIGINT_AS_STRING | JSON_OBJECT_AS_ARRAY);
 
     } catch (RuntimeException $e) {
         alert_set("Error when receiving the file : " . $e->getMessage());

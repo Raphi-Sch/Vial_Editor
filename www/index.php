@@ -5,14 +5,14 @@ require_once 'src/functions.php';
 // POST processing
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
     if ($_POST['action'] == 'clear') {
-        $_SESSION['vil'] = null;
-        $_SESSION['vil']['last_action'] = 'clear';
+        $_SESSION['vial_editor'] = null;
+        $_SESSION['vial_editor']['last_action'] = 'clear';
         header('Location: index.php');
         exit();
     }
 
     if ($_POST['action'] == 'import') {
-        $_SESSION['vil']['last_action'] = 'import';
+        $_SESSION['vial_editor']['last_action'] = 'import';
 
         // Download file from user and copy it in memory
         upload_file_to_memory('file', dirname(__FILE__) . '/tmp');
@@ -22,13 +22,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
     }
 
     if ($_POST['action'] == 'export') {
-        header("Content-Disposition: attachment; filename=layout.vil");
-        echo json_encode($_SESSION['vil']['data']);
+        header("Content-Disposition: attachment; filename=layout.vial_editor");
+        echo json_encode($_SESSION['vial_editor']['data']);
         exit();
     }
 
     if ($_POST['action'] == "swap-key") {
-        $_SESSION['vil']['last_action'] = 'swap-key';
+        $_SESSION['vial_editor']['last_action'] = 'swap-key';
 
         if ($_POST['a'] == $_POST['b']) {
             alert_set("Can't swap identical layer");
@@ -40,20 +40,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
         $B = intval($_POST['b']);
 
         // Copy A to tmp
-        $tmp = $_SESSION['vil']['data']['layout'][$A];
+        $tmp = $_SESSION['vial_editor']['data']['layout'][$A];
 
         // Copy B to A
-        $_SESSION['vil']['data']['layout'][$A] = $_SESSION['vil']['data']['layout'][$B];
+        $_SESSION['vial_editor']['data']['layout'][$A] = $_SESSION['vial_editor']['data']['layout'][$B];
 
         // Copy tmp to B
-        $_SESSION['vil']['data']['layout'][$B] = $tmp;
+        $_SESSION['vial_editor']['data']['layout'][$B] = $tmp;
 
         header('Location: index.php');
         exit();
     }
 
     if ($_POST['action'] == "swap-rotary") {
-        $_SESSION['vil']['last_action'] = 'swap-rotary';
+        $_SESSION['vial_editor']['last_action'] = 'swap-rotary';
 
         if ($_POST['a'] == $_POST['b']) {
             alert_set("Can't swap identical layer");
@@ -65,13 +65,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
         $B = intval($_POST['b']);
 
         // Copy A to tmp
-        $tmp = $_SESSION['vil']['data']['encoder_layout'][$A];
+        $tmp = $_SESSION['vial_editor']['data']['encoder_layout'][$A];
 
         // Copy B to A
-        $_SESSION['vil']['data']['encoder_layout'][$A] = $_SESSION['vil']['data']['encoder_layout'][$B];
+        $_SESSION['vial_editor']['data']['encoder_layout'][$A] = $_SESSION['vial_editor']['data']['encoder_layout'][$B];
 
         // Copy tmp to B
-        $_SESSION['vil']['data']['encoder_layout'][$B] = $tmp;
+        $_SESSION['vial_editor']['data']['encoder_layout'][$B] = $tmp;
 
         header('Location: index.php');
         exit();
@@ -94,7 +94,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
 
     <h1>Vial editor</h1>
 
-    <h2>Import layout <?php echo (isset($_SESSION['vil']['data'])) ? "(OK)" : "(Empty)"; ?></h2>
+    <h2>Import layout <?php echo (isset($_SESSION['vial_editor']['data'])) ? "(OK)" : "(Empty)"; ?></h2>
     <form action='index.php' method='post' enctype='multipart/form-data'>
         <input type='hidden' name='action' value='import'>
         <input type='file' name='file' required>
@@ -127,9 +127,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
 
     <h2>Current key layers</h2>
     <?php
-    if (isset($_SESSION['vil']['data'])) {
+    if (isset($_SESSION['vial_editor']['data'])) {
         $i = 0;
-        foreach ($_SESSION['vil']['data']['layout'] as $layer) {
+        foreach ($_SESSION['vial_editor']['data']['layout'] as $layer) {
             echo "<h4>Layer $i</h4>";
             $j = 0;
             foreach ($layer as $element) {

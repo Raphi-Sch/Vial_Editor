@@ -6,7 +6,7 @@
 <pre><?php print_r($_SESSION['alert']);?></pre>
 
 <h2>Cache</h2>
-<pre><?php print_r($_SESSION['vil']);?></pre>
+<pre><?php print_r($_SESSION['vial_editor']);?></pre>
 
 <script>
 let blurred = false;
